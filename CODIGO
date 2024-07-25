@@ -1,0 +1,93 @@
+#!/bin/bash
+
+# Función 1: Generador de contraseñas aleatorias
+generar_contrasena() {
+    local longitud=${1:-12}
+    tr -dc 'A-Za-z0-9_@#$%^&*()' </dev/urandom | head -c $longitud
+    echo
+}
+
+# Función 2: Script de copia de seguridad
+copia_de_seguridad() {
+    local origen=${1:-/home/user}
+    local destino=${2:-/home/user/backup}
+    local fecha=$(date +"%Y%m%d_%H%M%S")
+    local archivo_backup="$destino/backup_$fecha.tar.gz"
+    
+    echo "Realizando copia de seguridad de $origen a $archivo_backup"
+    tar -czf "$archivo_backup" "$origen"
+    echo "Copia de seguridad completada."
+}
+
+# Función 3: Monitor de espacio en disco
+monitor_espacio_disco() {
+    echo "Uso del espacio en disco:"
+    df -h
+}
+
+# Función 4: Generador de informes del sistema
+generar_informe_sistema() {
+    local archivo_informe=${1:-/home/user/informe_sistema.txt}
+    echo "Generando informe del sistema en $archivo_informe"
+    
+    {
+        echo "Fecha y hora: $(date)"
+        echo
+        echo "Información del sistema:"
+        uname -a
+        echo
+        echo "Espacio en disco:"
+        df -h
+        echo
+        echo "Uso de la memoria:"
+        free -h
+        echo
+        echo "Procesos en ejecución:"
+        top -b -n 1 | head -n 20
+    } > "$archivo_informe"
+    echo "Informe generado."
+}
+
+# Menú de opciones
+echo "Selecciona una opción:"
+echo "1. Generar contraseña aleatoria"
+echo "2. Realizar copia de seguridad"
+echo "3. Monitor de espacio en disco"
+echo "4. Generar informe del sistema"
+echo "5. Salir"
+
+read -r opcion
+
+case $opcion in
+    1)
+        echo "Ingrese la longitud de la contraseña (por defecto 12):"
+        read -r longitud
+        longitud=${longitud:-12}
+        echo "Contraseña generada: $(generar_contrasena $longitud)"
+        ;;
+    2)
+        echo "Ingrese la ruta de origen para la copia de seguridad (por defecto /home/user):"
+        read -r origen
+        origen=${origen:-/home/user}
+        echo "Ingrese la ruta de destino para la copia de seguridad (por defecto /home/user/backup):"
+        read -r destino
+        destino=${destino:-/home/user/backup}
+        copia_de_seguridad "$origen" "$destino"
+        ;;
+    3)
+        monitor_espacio_disco
+        ;;
+    4)
+        echo "Ingrese la ruta y nombre del archivo para el informe (por defecto /home/user/informe_sistema.txt):"
+        read -r archivo_informe
+        archivo_informe=${archivo_informe:-/home/user/informe_sistema.txt}
+        generar_informe_sistema "$archivo_informe"
+        ;;
+    5)
+        echo "Saliendo..."
+        exit 0
+        ;;
+    *)
+        echo "Opción no válida."
+        ;;
+esac
