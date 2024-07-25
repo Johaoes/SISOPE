@@ -1,3 +1,19 @@
+Explicación del Script
+1. Generador de Contraseñas Aleatorias:
+La función generar_contrasena genera una contraseña aleatoria con una longitud especificada. Si no se proporciona una longitud, se utiliza 12 caracteres por defecto.
+2. Script de Copia de Seguridad:
+La función copia_de_seguridad realiza una copia de seguridad del directorio especificado y la guarda en el directorio de destino con una marca de tiempo en el nombre del archivo.
+3. Monitor de Espacio en Disco:
+La función monitor_espacio_disco muestra el uso del espacio en disco de todas las particiones montadas.
+4. Generador de Informes del Sistema:
+La función generar_informe_sistema crea un informe del sistema con la fecha y hora actuales, información del sistema, uso del disco, memoria y procesos en ejecución.
+
+---Cómo Usar el Script---
+1. Ejecuta el Script:
+(ejemplo)./mi_script.sh
+2. Selecciona la opción deseada siguiendo las instrucciones en pantalla.
+---------------------------------------------------------------------------------------------
+
 #!/bin/bash
 
 # Función 1: Generador de contraseñas aleatorias
